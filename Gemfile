@@ -19,10 +19,12 @@ gem "image_processing", "~> 1.2"
 gem "haml-rails"
 
 group :development, :test do
+  gem "dotenv-rails"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "bundler-audit", require: false
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
+  gem "faker"
 end
 
 group :development do

@@ -1,27 +1,30 @@
 !!!
 %html
   %head
-    %title= content_for(:title) || "Creatordock"
+    %title= content_for(:title) || "SocialScale"
     %meta{ name: "viewport", content: "width=device-width,initial-scale=1" }
-    %meta{ name: "apple-mobile-web-app-capable", content: "yes" }
-    %meta{ name: "application-name", content: "Creatordock" }
-    %meta{ name: "mobile-web-app-capable", content: "yes" }
     = csrf_meta_tags
     = csp_meta_tag
-
-    = yield :head
-
-    -# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!)
-    -# = tag.link rel: "manifest", href: pwa_manifest_path(format: :json)
-
-    %link{ rel: "icon", href: "/icon.png", type: "image/png" }
-    %link{ rel: "icon", href: "/icon.svg", type: "image/svg+xml" }
-    %link{ rel: "apple-touch-icon", href: "/icon.png" }
-
-    -# Includes all stylesheet files in app/assets/stylesheets
     = stylesheet_link_tag :app, "data-turbo-track": "reload"
     = javascript_importmap_tags
 
-  %body
-    %main.container.mx-auto.mt-28.px-5.flex
+  %body.bg-gray-50.min-h-screen
+    %nav.bg-white.border-b.border-gray-200
+      .max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8
+        .flex.justify-between.h-16.items-center
+          = link_to "SocialScale", root_path, class: "text-xl font-bold text-indigo-600"
+          .flex.gap-6
+            = link_to "Dashboard", root_path, class: "text-sm font-medium text-gray-600 hover:text-indigo-600"
+            = link_to "Creators", creators_path, class: "text-sm font-medium text-gray-600 hover:text-indigo-600"
+
+    - if notice.present?
+      .max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8.mt-4
+        .rounded-md.bg-green-50.border.border-green-200.p-4
+          %p.text-sm.text-green-800= notice
+    - if alert.present?
+      .max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8.mt-4
+        .rounded-md.bg-red-50.border.border-red-200.p-4
+          %p.text-sm.text-red-800= alert
+
+    %main.max-w-7xl.mx-auto.px-4.sm:px-6.lg:px-8.py-8
       = yield

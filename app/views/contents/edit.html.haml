@@ -1,0 +1,6 @@
+.mb-6
+  = link_to "← Back to #{@creator.name}", creator_path(@creator), class: "text-sm text-indigo-600 hover:text-indigo-800"
+
+.bg-white.rounded-lg.border.border-gray-200.p-6.max-w-xl
+  %h1.text-xl.font-bold.text-gray-900.mb-6 Edit Content
+  = render "form", creator: @creator, content: @content

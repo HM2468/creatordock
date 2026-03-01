@@ -1,0 +1,36 @@
+.mb-6
+  = link_to "← Back to Creators", creators_path, class: "text-sm text-indigo-600 hover:text-indigo-800"
+
+.bg-white.rounded-lg.border.border-gray-200.p-6.mb-8
+  .flex.justify-between.items-start
+    .div
+      %h1.text-2xl.font-bold.text-gray-900= @creator.name
+      %p.text-sm.text-gray-500.mt-1= @creator.email
+      %p.text-sm.text-gray-500.mt-1
+        %span.font-medium= @creator.contents_count
+        content items
+    = link_to "Add Content", new_creator_content_path(@creator), class: "rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+
+%h2.text-lg.font-semibold.text-gray-800.mb-4 Content
+
+.flex.gap-2.mb-4.flex-wrap
+  = link_to "All", creator_path(@creator), class: "px-3 py-1 rounded-full text-sm font-medium #{params[:provider].blank? ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}"
+  - Content.social_media_providers.each_key do |provider|
+    = link_to provider.capitalize, creator_path(@creator, provider: provider), class: "px-3 py-1 rounded-full text-sm font-medium capitalize #{params[:provider] == provider ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}"
+
+.overflow-y-auto{ style: "height: 60vh" }
+  - if @contents.empty?
+    .bg-white.rounded-lg.border.border-gray-200.p-8.text-center
+      %p.text-sm.text-gray-500 No content found.
+  - else
+    .grid.grid-cols-1.gap-4
+      - @contents.each do |content|
+        .bg-white.rounded-lg.border.border-gray-200.p-4.flex.justify-between.items-center
+          .div
+            %p.font-medium.text-gray-900= content.title
+            = link_to content.social_media_url, content.social_media_url, target: "_blank", rel: "noopener", class: "text-sm text-indigo-600 hover:underline truncate block max-w-md"
+            %span.inline-block.mt-2.px-2.py-0.5.rounded.text-xs.font-medium.capitalize{ class: provider_badge_class(content.social_media_provider) }= content.social_media_provider
+          = link_to "Edit", edit_creator_content_path(@creator, content), class: "text-sm text-gray-500 hover:text-indigo-600 ml-4 shrink-0"
+
+.fixed.bottom-0.left-0.right-0.bg-white.border-t.border-gray-200.py-3.z-10
+  = render "shared/pagination", collection: @contents, options: { provider: params[:provider] }

@@ -1,0 +1,31 @@
+- if content.errors.any?
+  .rounded-md.bg-red-50.border.border-red-200.p-4.mb-6
+    %p.text-sm.font-medium.text-red-800.mb-1
+      = pluralize(content.errors.count, "error")
+      prevented this record from being saved:
+    %ul.list-disc.list-inside.text-sm.text-red-700
+      - content.errors.full_messages.each do |msg|
+        %li= msg
+
+= form_with model: [creator, content], class: "space-y-5" do |f|
+  .div
+    = f.label :title, class: "block text-sm font-medium text-gray-700 mb-1"
+    = f.text_field :title, class: "w-full rounded-md border #{content.errors[:title].any? ? 'border-red-400' : 'border-gray-300'} px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    - if content.errors[:title].any?
+      %p.text-xs.text-red-600.mt-1= content.errors[:title].first
+
+  .div
+    = f.label :social_media_url, "URL", class: "block text-sm font-medium text-gray-700 mb-1"
+    = f.url_field :social_media_url, class: "w-full rounded-md border #{content.errors[:social_media_url].any? ? 'border-red-400' : 'border-gray-300'} px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    - if content.errors[:social_media_url].any?
+      %p.text-xs.text-red-600.mt-1= content.errors[:social_media_url].first
+
+  .div
+    = f.label :social_media_provider, "Provider", class: "block text-sm font-medium text-gray-700 mb-1"
+    = f.select :social_media_provider, Content.social_media_providers.keys.map { |p| [p.capitalize, p] }, { include_blank: "Select a provider" }, class: "w-full rounded-md border #{content.errors[:social_media_provider].any? ? 'border-red-400' : 'border-gray-300'} px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    - if content.errors[:social_media_provider].any?
+      %p.text-xs.text-red-600.mt-1= content.errors[:social_media_provider].first
+
+  .flex.gap-3
+    = f.submit class: "rounded-md bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700 cursor-pointer"
+    = link_to "Cancel", creator_path(creator), class: "rounded-md border border-gray-300 px-5 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"

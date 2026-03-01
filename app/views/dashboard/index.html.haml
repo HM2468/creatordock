@@ -1,0 +1,17 @@
+%h1.text-2xl.font-bold.text-gray-900.mb-6 Dashboard
+
+.grid.grid-cols-1.sm:grid-cols-3.gap-4.mb-8
+  = link_to creators_path, class: "bg-white rounded-lg border border-gray-200 p-6 block hover:border-indigo-400 hover:shadow-sm transition-all" do
+    %p.text-sm.font-medium.text-gray-500 Total Creators
+    %p.text-3xl.font-bold.text-indigo-600.mt-1= @total_creators
+
+  .bg-white.rounded-lg.border.border-gray-200.p-6
+    %p.text-sm.font-medium.text-gray-500 Total Content Items
+    %p.text-3xl.font-bold.text-indigo-600.mt-1= @total_contents
+
+  .bg-white.rounded-lg.border.border-gray-200.p-6
+    %p.text-sm.font-medium.text-gray-500.mb-3 By Provider
+    - Content.social_media_providers.each_key do |provider|
+      .flex.justify-between.items-center.text-sm.mt-1
+        %span.capitalize.text-gray-700= provider
+        %span.font-semibold.text-gray-900= @counts_by_provider[provider] || 0
